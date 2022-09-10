@@ -18,3 +18,5 @@ namespace PlatformService.Models
         public string Cost { get; set; }
     }
 }
+
+//NB: Models are internal while DTOs are external

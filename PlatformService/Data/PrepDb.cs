@@ -6,7 +6,8 @@ namespace PlatformService.Data
     {
         public static void PrepPopulation(IApplicationBuilder app)
         {
-            // create a scoped service for AppDbContext for the population
+            // create a limited scope for AppDbContext service instance  for the population during app run
+            // static class so can't use contructor DI
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {
                 SeedData(serviceScope.ServiceProvider.GetService<AppDbContext>());
