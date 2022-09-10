@@ -1,4 +1,6 @@
-﻿namespace PlatformService.Dtos
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PlatformService.Dtos
 {
     public class PlatformCreateDto
     {
