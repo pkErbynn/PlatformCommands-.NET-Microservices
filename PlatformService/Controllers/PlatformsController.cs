@@ -51,10 +51,11 @@ namespace PlatformService.Controllers
 
             var platformModel = _mapper.Map<Platform>(platformCreateDto);   // PlatformCreateDto -> Platform
             _platformRepo.CreatePlatform(platformModel);
+            _platformRepo.SaveChanges();
 
             var platformReadDto = _mapper.Map<PlatformReadDto>(platformModel);
 
-            return CreatedAtRoute(nameof(GetPlatformById), platformReadDto.Id, platformReadDto);
+            return CreatedAtRoute(nameof(GetPlatformById), new { Id = platformReadDto.Id }, platformReadDto);
         }
     }
 }
