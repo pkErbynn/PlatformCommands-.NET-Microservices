@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment  # one of K8S components 
+metadata: # metadata for Deployment
+ name: platform-depl
+spec: # spec for Deployment (repl, sele, templ)...attribs differ based on component
+ replicas: 1
+ selector:
+  matchLabels:
+   app: platformservice # label ref for Service component
+ template:  # config template for Pod 
+  metadata: # metadata for Pod
+   labels:
+    app: platformservice
+  spec: # spec for Pod
+   containers: # array of containers that why has '-'
+    - name: platformservice
+      image: pkerbynn/platformservice:latest
