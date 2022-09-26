@@ -1,6 +1,7 @@
 ﻿// Need this controller in Command service cus it's the parent for the Command
 using AutoMapper;
 using CommandService.Data;
+using CommandService.Dto;
 using Microsoft.AspNetCore.Mvc;
 
 // Platform is a parent of the Command
@@ -17,6 +18,16 @@ namespace CommandService.Controllers
         {
             _repository = repository;
             _mapper = mapper;
+        }
+
+        [HttpGet]
+        public ActionResult<IEnumerable<PlatformReadDto>> GetPlatforms()
+        {
+            Console.WriteLine("--> Getting Platforms from CommandsService");
+
+            var platformItems = _repository.GetAllPlatforms();
+
+            return Ok(_mapper.Map<IEnumerable<PlatformReadDto>>(platformItems));
         }
 
         [HttpPost]

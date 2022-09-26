@@ -3,7 +3,7 @@ kind: Service
 metadata:
  name: platformnpservice-srv
 spec:
- type: NodePort
+ type: NodePort # LoadBalancer
  selector:
   app: platformservice # target depl service
  ports:

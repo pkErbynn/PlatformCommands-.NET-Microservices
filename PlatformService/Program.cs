@@ -3,11 +3,10 @@ using PlatformService.Data;
 using PlatformService.Repository;
 using PlatformService.SyncDataServices.Http;
 using Microsoft.Extensions.Configuration;
-
+using PlatformService.AsyncDataServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -15,8 +14,9 @@ builder.Services.AddSwaggerGen();
 //builder.Services.AddDbContext<AppDbContext>(options => 
 //    options.UseInMemoryDatabase("InMem"));
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddScoped<IPlatformRepo, PlatformRepo>();
 builder.Services.AddHttpClient<ICommandDataClient, HttpCommandDataClient>();
+builder.Services.AddScoped<IPlatformRepo, PlatformRepo>();
+builder.Services.AddSingleton<IMessageBusClient, MessageBusClient>();
 
 Console.WriteLine($"--> CommandService Endpoint {builder.Configuration["CommandService"]}");
 
@@ -26,11 +26,14 @@ if (builder.Environment.IsDevelopment())
     builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseInMemoryDatabase("InMem"));
 }
-if (builder.Environment.IsProduction())
+else
 {
-    Console.WriteLine("--> Using SqlServer Db");
-    builder.Services.AddDbContext<AppDbContext>(opt =>
-        opt.UseSqlServer(builder.Configuration.GetConnectionString("PlatformsConn")));  // GetConnectionString() matches "ConnectionStrings" key
+    if (builder.Environment.IsProduction())
+    {
+        Console.WriteLine("--> Using SqlServer Db");
+        builder.Services.AddDbContext<AppDbContext>(opt =>
+            opt.UseSqlServer(builder.Configuration.GetConnectionString("PlatformsConn")));  // GetConnectionString() matches "ConnectionStrings" key
+    }
 }
 
 var app = builder.Build();
