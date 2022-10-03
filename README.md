@@ -21,6 +21,7 @@ These 2 services commununicate synchronously (using HTTP) and asynchronously (us
 - Kubernetes
 - Minikube
 - Docker Desktop
+- SwaggerUI / Insomia
 
 ## Scope
 
