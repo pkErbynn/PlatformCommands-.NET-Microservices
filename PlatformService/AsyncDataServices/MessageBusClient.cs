@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
-using PlatformService.Dtos;
+﻿using PlatformService.Dtos;
 using RabbitMQ.Client;
 using System.Text;
 using System.Text.Json;
@@ -18,15 +17,16 @@ namespace PlatformService.AsyncDataServices
             var factory = new ConnectionFactory()
             {
                 HostName = _configuration["RabbitMQHost"],
-                Port = int.Parse(_configuration["RabbitMQPort"])
+                Port = int.Parse(_configuration["RabbitMQPort"]),
             };
 
             try
             {
+                // setups: connection -> channel -> exchange
                 _connection = factory.CreateConnection();
                 _channel = _connection.CreateModel();
 
-                _channel.ExchangeDeclare(exchange: "trigger", type: ExchangeType.Fanout);
+                _channel.ExchangeDeclare(exchange: "trigger", type: ExchangeType.Fanout);   // Todo: Read exchange name, "trigger" from config
 
                 _connection.ConnectionShutdown += RabbitMQ_ConnectionShutdown;
 
@@ -37,6 +37,7 @@ namespace PlatformService.AsyncDataServices
                 Console.WriteLine($"--> Could not connect to the Message Bus: {ex.Message}");
             }
         }
+
         public void PublishNewPlatform(PlatformPublishedDto platformPublishedDto)
         {
             var message = JsonSerializer.Serialize(platformPublishedDto);
@@ -47,7 +48,7 @@ namespace PlatformService.AsyncDataServices
             }
             else
             {
-                Console.WriteLine("--> RabbitMQ connectionis closed, not sending");
+                Console.WriteLine("--> RabbitMQ connection is closed, not sending");
             }
         }
 
@@ -55,7 +56,7 @@ namespace PlatformService.AsyncDataServices
         {
             var body = Encoding.UTF8.GetBytes(message);
 
-            _channel.BasicPublish(exchange: "trigger",  // publish to trigger exchange
+            _channel.BasicPublish(exchange: "trigger",  // publish to "trigger" exchange...
                             routingKey: "",
                             basicProperties: null,
                             body: body);

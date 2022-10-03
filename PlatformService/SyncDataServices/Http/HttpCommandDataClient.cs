@@ -4,7 +4,7 @@ using System.Text.Json;
 
 namespace PlatformService.SyncDataServices.Http
 {
-    public class HttpCommandDataClient : ICommandDataClient
+    public class HttpCommandDataClient : IHttpCommandDataClient
     {
         private readonly HttpClient _httpClient;
         private readonly IConfiguration _configuration;

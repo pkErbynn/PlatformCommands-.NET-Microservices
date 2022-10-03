@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using PlatformService.Data;
 using PlatformService.Repository;
 using PlatformService.SyncDataServices.Http;
-using Microsoft.Extensions.Configuration;
 using PlatformService.AsyncDataServices;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,14 +10,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//builder.Services.AddDbContext<AppDbContext>(options => 
-//    options.UseInMemoryDatabase("InMem"));
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddHttpClient<ICommandDataClient, HttpCommandDataClient>();
+builder.Services.AddHttpClient<IHttpCommandDataClient, HttpCommandDataClient>();
 builder.Services.AddScoped<IPlatformRepo, PlatformRepo>();
 builder.Services.AddSingleton<IMessageBusClient, MessageBusClient>();
 
+// dubuging purpose
 Console.WriteLine($"--> CommandService Endpoint {builder.Configuration["CommandService"]}");
+Console.WriteLine($"--> Mqtt Host {builder.Configuration["RabbitMQHost"]}");
+Console.WriteLine($"--> Mqtt Port {builder.Configuration["RabbitMQPort"]}");
 
 if (builder.Environment.IsDevelopment())
 {
@@ -38,19 +38,16 @@ else
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-//app.UseHttpsRedirection();
-
 app.UseAuthorization();
 
 app.MapControllers();
 
-PrepDb.PrepPopulation(app);
+PrepDb.PrepPopulation(app);     // seed data on start
 
 app.Run();

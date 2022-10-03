@@ -14,13 +14,13 @@ namespace PlatformService.Controllers
     {
         private readonly IPlatformRepo _platformRepo;
         private readonly IMapper _mapper;
-        private readonly ICommandDataClient _commandDataClient;
+        private readonly IHttpCommandDataClient _commandDataClient;
         private readonly IMessageBusClient _messageBusClient;
 
         public PlatformsController(
             IPlatformRepo platformRepo, 
             IMapper mapper, 
-            ICommandDataClient commandDataClient,
+            IHttpCommandDataClient commandDataClient,
             IMessageBusClient messageBusClient)
         {
             _platformRepo = platformRepo;
@@ -59,7 +59,7 @@ namespace PlatformService.Controllers
                 return BadRequest(ModelState);
             }
 
-            var platformModel = _mapper.Map<Platform>(platformCreateDto);   // PlatformCreateDto -> Platform
+            var platformModel = _mapper.Map<Platform>(platformCreateDto);   // from PlatformCreateDto -> Platform
             _platformRepo.CreatePlatform(platformModel);
             _platformRepo.SaveChanges();
 
@@ -79,7 +79,7 @@ namespace PlatformService.Controllers
             try
             {
                 var platformPublishedDto = _mapper.Map<PlatformPublishedDto>(platformReadDto);
-                platformPublishedDto.Event = "Platform_Published";
+                platformPublishedDto.Event = "Platform_Published";  // type of message event sent
                 _messageBusClient.PublishNewPlatform(platformPublishedDto);
             }
             catch (Exception ex)

@@ -15,8 +15,8 @@ namespace CommandService.Models
         public string CommandLine { get; set; }
 
         [Required]
-        public int PlatformId { get; set; }
+        public int PlatformId { get; set; } 
 
-        public Platform Platform { get; set; }
+        public Platform Platform { get; set; }  // 1 cmd, 1 platform
     }
 }

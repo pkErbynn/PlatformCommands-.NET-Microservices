@@ -9,7 +9,7 @@ namespace CommandService.Models
         public int Id { get; set; }
 
         [Required]
-        public int ExternalID { get; set; }
+        public int ExternalID { get; set; }     // Primary key from Plaform Service, thus, Foreign key
 
         [Required]
         public string Name { get; set; }

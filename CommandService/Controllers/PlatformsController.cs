@@ -1,10 +1,11 @@
 ﻿// Need this controller in Command service cus it's the parent for the Command
+// Platform is a parent resource of the Command
+
 using AutoMapper;
 using CommandService.Data;
 using CommandService.Dto;
 using Microsoft.AspNetCore.Mvc;
 
-// Platform is a parent of the Command
 namespace CommandService.Controllers
 {
     [Route("api/c/[controller]")]
@@ -31,9 +32,12 @@ namespace CommandService.Controllers
         }
 
         [HttpPost]
-        public ActionResult TestInboundConnection()
+        public ActionResult TestInboundConnection(PlatformReadDto platformReadDto)
         {
-            Console.WriteLine("---> Inbound post # command service");
+            Console.WriteLine("---> Inbound POST to command service");
+            Console.WriteLine(platformReadDto.Id);
+            Console.WriteLine(platformReadDto.Name);
+
             return Ok("Inbound test from Platforms controller");
         }
     }
