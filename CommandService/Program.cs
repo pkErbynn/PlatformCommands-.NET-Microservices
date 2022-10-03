@@ -15,7 +15,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<ICommandRepo, CommandRepo>();
 builder.Services.AddSingleton<IEventProcessor, EventProcessor>();
 
-builder.Services.AddHostedService<MessageBusSubscriber>();   // hostedService, no Interface
+builder.Services.AddHostedService<MessageBusSubscriber>();   // register background service with hostedService, no Interface
 
 var app = builder.Build();
 

@@ -24,19 +24,14 @@ These 2 services commununicate synchronously (using HTTP) and asynchronously (us
 
 ## Scope
 
-- Command and Platform services accessed locally via endpoints
-- Command and Platform services locally communicates synchronously
-- Services published to Docker and accessible locally via Docker containers
+- Command and Platform services accessible via endpoints
+- Command and Platform services communicates synchronously using HTTP Client
+- Services communicates asynchronously using Mqtt MessageBus
+- Services published to Docker and accessible via Docker containers
 - Services deployed into K8S Clusters using `kubectl` and accessible locally via K8S Clusters using Minikube
-- Services communicates asynchronously locally using MessageBus
-
-## Non-Scope
-
-- Communication between services in K8S Clusters
-- API Gateway in K8S cluster
 
 ## Usage
 
 - Start Docker Desktop
-- Start Minikube
-- Run Minikube tunnel for a NodePod/LoadBalancer Service in K8S Cluster
+- Start Minikube to setup K8S cluster
+- Run Minikube tunnel for NodePode or LoadBalancer services in the cluster. Example, for Rabbit MessageBus, `$minikube service rabbitmq-loadbalancer --url`
