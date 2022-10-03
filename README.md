@@ -21,3 +21,22 @@ These 2 services commununicate synchronously (using HTTP) and asynchronously (us
 - Kubernetes
 - Minikube
 - Docker Desktop
+
+## Scope
+
+- Command and Platform services accessed locally via endpoints
+- Command and Platform services locally communicates synchronously
+- Services published to Docker and accessible locally via Docker containers
+- Services deployed into K8S Clusters using `kubectl` and accessible locally via K8S Clusters using Minikube
+- Services communicates asynchronously locally using MessageBus
+
+## Non-Scope
+
+- Communication between services in K8S Clusters
+- API Gateway in K8S cluster
+
+## Usage
+
+- Start Docker Desktop
+- Start Minikube
+- Run Minikube tunnel for a NodePod/LoadBalancer Service in K8S Cluster
