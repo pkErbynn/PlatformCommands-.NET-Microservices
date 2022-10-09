@@ -36,7 +36,7 @@ namespace CommandService.EventProcessor
 
         private void addPlatform(string platformPublishedMessage)
         {
-            // Can DI a scoped service into Singleton so use the scropeFactory method
+            // Can't DI a scoped service into Singleton so use the scropeFactory method
             using (var scope = _scopeFactory.CreateScope())
             {
                 var repo = scope.ServiceProvider.GetRequiredService<ICommandRepo>();
