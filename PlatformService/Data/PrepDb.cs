@@ -35,3 +35,9 @@ namespace PlatformService.Data
         }
     }
 }
+
+
+//NB:
+//ServiceScope creation is used when;
+//- class is static
+//- services has incompatible lifespan, eg: scoped service can't DI singleton service
