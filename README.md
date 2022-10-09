@@ -26,13 +26,21 @@ These 2 services commununicate synchronously (using HTTP) and asynchronously (us
 ## Scope
 
 - Command and Platform services accessible via endpoints
-- Command and Platform services communicates synchronously using HTTP Client
+- Services communicates synchronously using HTTP Client
+- Services communicates synchronously using gRPC Protobuf
 - Services communicates asynchronously using Mqtt MessageBus
-- Services published to Docker and accessible via Docker containers
-- Services deployed into K8S Clusters using `kubectl` and accessible locally via K8S Clusters using Minikube
+- Services publish to Docker and accessible via Docker containers
+- Services deploy into K8S Clusters using `kubectl` and accessible locally via K8S Clusters using Minikube
 
 ## Usage
+Locally,
+- Run services
+    
+    `$ dotnet run <SERVICE_PROJECT>`
 
+Remotely,
 - Start Docker Desktop
 - Start Minikube to setup K8S cluster
-- Run Minikube tunnel for NodePode or LoadBalancer services in the cluster. Example, for Rabbit MessageBus, `$minikube service rabbitmq-loadbalancer --url`
+- Run Minikube tunnel for NodePode or LoadBalancer services in the cluster. Example, for Rabbit MessageBus, 
+    
+    `$ minikube service rabbitmq-loadbalancer --url`
