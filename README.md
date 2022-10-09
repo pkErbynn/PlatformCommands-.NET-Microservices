@@ -37,11 +37,15 @@ These 2 services commununicate synchronously (using HTTP) and asynchronously (us
 Locally,
 - Run services
     
-    `$ dotnet run <SERVICE_PROJECT>`
+    ```
+    $ dotnet run <SERVICE_PROJECT>
+    ```
 
 Remotely,
 - Start Docker Desktop
 - Start Minikube to setup K8S cluster
 - Run Minikube tunnel for NodePode or LoadBalancer services in the cluster. Example, for Rabbit MessageBus, 
     
-    `$ minikube service rabbitmq-loadbalancer --url`
+    ```
+    $ minikube service rabbitmq-loadbalancer --url
+    ```
