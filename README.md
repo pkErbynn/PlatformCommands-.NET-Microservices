@@ -34,19 +34,9 @@ These 2 services commununicate synchronously (using HTTP) and asynchronously (us
 - Services deploy into K8S Clusters using `kubectl` and accessible locally via K8S Clusters using Minikube
 
 ## Usage
-Locally,
-- Spin Message Broker using Minikube
-- Run services
-    
-    ```
-    $ dotnet run <SERVICE_PROJECT>
-    ```
+- Spin Docker Desktop
+- Start Minikube to setup K8S cluster, `$ minikube start`
+- Spin Message Broker using Minikube, reconfigure port
+- Run Minikube tunnel for NodePode or LoadBalancer services in the cluster. Example, for Rabbit MessageBus, `$ minikube service rabbitmq-loadbalancer --url`
+- Run services, `$ dotnet run <SERVICE_PROJECT>`
 
-Remotely,
-- Start Docker Desktop
-- Start Minikube to setup K8S cluster
-- Run Minikube tunnel for NodePode or LoadBalancer services in the cluster. Example, for Rabbit MessageBus, 
-    
-    ```
-    $ minikube service rabbitmq-loadbalancer --url
-    ```
