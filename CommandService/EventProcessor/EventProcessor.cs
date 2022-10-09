@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using CommandService.Data;
-using CommandService.Dto;
+using CommandService.Dtos;
 using CommandService.EventProcessor.EventTypeEnum;
 using CommandService.Models;
 using System.Text.Json;

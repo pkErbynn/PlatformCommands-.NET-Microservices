@@ -15,9 +15,7 @@ namespace CommandService.AsyncDataServices
         private IModel _channel;
         private string _queueName;
 
-        public MessageBusSubscriber(
-            IConfiguration configuration,
-            IEventProcessor eventProcessor)
+        public MessageBusSubscriber(IConfiguration configuration, IEventProcessor eventProcessor)
         {
             _configuration = configuration;
             _eventProcessor = eventProcessor;
@@ -32,37 +30,53 @@ namespace CommandService.AsyncDataServices
                 Port = int.Parse(_configuration["RabbitMQPort"]) 
             };
 
-            _connection = factory.CreateConnection();
-            _channel = _connection.CreateModel();
-            _channel.ExchangeDeclare(exchange: "trigger", type: ExchangeType.Fanout);
-            _queueName = _channel.QueueDeclare().QueueName;
-            _channel.QueueBind(queue: _queueName, exchange: "trigger", routingKey: "");
+            try
+            {
+                _connection = factory.CreateConnection();
+                _channel = _connection.CreateModel() ?? throw new ArgumentNullException();
+                _channel.ExchangeDeclare(exchange: "trigger", type: ExchangeType.Fanout);
+                _queueName = _channel.QueueDeclare().QueueName;
+                _channel.QueueBind(queue: _queueName, exchange: "trigger", routingKey: "");
 
-            Console.WriteLine("--> Listenting on the Message Bus...");
+                Console.WriteLine("--> Listenting on the Message Bus...");
 
-            _connection.ConnectionShutdown += RabbitMQ_ConnectionShutdown;
+                _connection.ConnectionShutdown += RabbitMQ_ConnectionShutdown;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"--> Message Broker is down: {ex.Message}");
+            }
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            stoppingToken.ThrowIfCancellationRequested();
-
-            var consumer = new EventingBasicConsumer(_channel);
-
-            // listen and process data
-            consumer.Received += (ModuleHandle, eventArgs) =>
+            try
             {
-                Console.WriteLine("--> Event Received!");
+                stoppingToken.ThrowIfCancellationRequested();
 
-                var body = eventArgs.Body;
-                var notificationMessage = Encoding.UTF8.GetString(body.ToArray());
+                var consumer = new EventingBasicConsumer(_channel);
 
-                _eventProcessor.ProcessEvent(notificationMessage);
-            };
+                // listen and process data
+                consumer.Received += (ModuleHandle, eventArgs) =>
+                {
+                    Console.WriteLine("--> Event Received!");
 
-            _channel.BasicConsume(queue: _queueName, autoAck: true, consumer: consumer);
+                    var body = eventArgs.Body;
+                    var notificationMessage = Encoding.UTF8.GetString(body.ToArray());
 
-            return Task.CompletedTask;
+                    _eventProcessor.ProcessEvent(notificationMessage);
+                };
+
+                _channel.BasicConsume(queue: _queueName, autoAck: true, consumer: consumer);
+
+                return Task.CompletedTask;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"--> Can not listen to the Message Bus: {ex.Message}");
+                return Task.CompletedTask;
+            }
+
         }
 
         private void RabbitMQ_ConnectionShutdown(object sender, ShutdownEventArgs e)

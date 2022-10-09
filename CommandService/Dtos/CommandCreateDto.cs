@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CommandService.Dto
+namespace CommandService.Dtos
 {
     public class CommandCreateDto
     {

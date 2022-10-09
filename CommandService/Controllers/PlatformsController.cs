@@ -3,7 +3,7 @@
 
 using AutoMapper;
 using CommandService.Data;
-using CommandService.Dto;
+using CommandService.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CommandService.Controllers
