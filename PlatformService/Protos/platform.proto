@@ -6,7 +6,7 @@ service GrpcPlatform {
 	rpc GetAllPlatforms (GetAllRequest) returns (PlatformResponse);		// procedure call
 }
 
-message GetAllRequest {}	// inputs: empty
+message GetAllRequest {}	// service inputs: empty
 
 message GrpcPlatformModel {
 	int32 platformId = 1;	// property = position
@@ -14,6 +14,6 @@ message GrpcPlatformModel {
 	string publisher = 3;
 }
 
-message PlatformResponse {	// output
+message PlatformResponse {	// service output
 	repeated GrpcPlatformModel platform = 1;
 }

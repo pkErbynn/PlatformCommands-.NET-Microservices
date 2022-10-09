@@ -4,6 +4,9 @@ using PlatformService.Repository;
 
 namespace PlatformService.SyncDataServices.Grpc
 {
+    /// <summary>
+    /// Platform as setup as Grpc server as Command service will pull Platform resources from this service on startup
+    /// </summary>
     public class GrpcPlatformService : GrpcPlatform.GrpcPlatformBase
     {
         private readonly IPlatformRepo _platformRepo;
@@ -15,7 +18,13 @@ namespace PlatformService.SyncDataServices.Grpc
             _mapper = mapper;
         }
 
-        public override Task<PlatformResponse> GetAllPlatforms (GetAllRequest request, ServerCallContext context)   // load platforms from db when this procedure is called remotely, instead of as controller api
+        /// <summary>
+        ///  Loads platforms from db when this procedure is called remotely, instead of as controller api
+        /// </summary>
+        /// <param name="request">grpc input</param>
+        /// <param name="context">grpc server context</param>
+        /// <returns>grpc repeated platform response</returns>
+        public override Task<PlatformResponse> GetAllPlatforms (GetAllRequest request, ServerCallContext context)
         {
             var response = new PlatformResponse();
 

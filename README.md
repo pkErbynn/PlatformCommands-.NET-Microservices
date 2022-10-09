@@ -35,6 +35,7 @@ These 2 services commununicate synchronously (using HTTP) and asynchronously (us
 
 ## Usage
 Locally,
+- Spin Message Broker using Minikube
 - Run services
     
     ```
