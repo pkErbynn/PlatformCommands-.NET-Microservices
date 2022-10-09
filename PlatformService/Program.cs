@@ -3,6 +3,7 @@ using PlatformService.Data;
 using PlatformService.Repository;
 using PlatformService.SyncDataServices.Http;
 using PlatformService.AsyncDataServices;
+using PlatformService.SyncDataServices.Grpc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddHttpClient<IHttpCommandDataClient, HttpCommandDataClient>();
 builder.Services.AddScoped<IPlatformRepo, PlatformRepo>();
 builder.Services.AddSingleton<IMessageBusClient, MessageBusClient>();
+builder.Services.AddGrpc();
 
 // dubuging purpose
 Console.WriteLine($"--> CommandService Endpoint {builder.Configuration["CommandService"]}");
@@ -48,6 +50,14 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-PrepDb.PrepPopulation(app);     // seed data on start
+// gRPC config
+app.MapGrpcService<GrpcPlatformService>();
+app.MapGet("/protos/platform.proto", async context =>
+{
+    await context.Response.WriteAsync(File.ReadAllText("Protos/platform.proto"));
+});
+
+// seed data on start
+PrepDb.PrepPopulation(app);
 
 app.Run();
