@@ -34,9 +34,7 @@ namespace CommandService.Controllers
         [HttpPost]
         public ActionResult TestInboundConnection(PlatformReadDto platformReadDto)
         {
-            Console.WriteLine("---> Inbound POST to command service");
-            Console.WriteLine(platformReadDto.Id);
-            Console.WriteLine(platformReadDto.Name);
+            Console.WriteLine($"---> Inbound POST to command service: Id {platformReadDto.Id}, Name {platformReadDto.Name}");
 
             return Ok("Inbound test from Platforms controller");
         }
