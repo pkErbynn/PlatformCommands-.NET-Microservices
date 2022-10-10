@@ -1,7 +1,7 @@
 ﻿using CommandService.Models;
 using CommandService.SyncDataServices.Grpc;
 
-namespace CommandService.Data
+namespace CommandService.Repository
 {
     /// <summary>
     /// Invoked in middleware startup file to populate db

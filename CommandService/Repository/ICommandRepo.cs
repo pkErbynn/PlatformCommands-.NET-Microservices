@@ -1,6 +1,6 @@
 ﻿using CommandService.Models;
 
-namespace CommandService.Data
+namespace CommandService.Repository
 {
     public interface ICommandRepo
     {

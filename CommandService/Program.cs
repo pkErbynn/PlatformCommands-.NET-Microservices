@@ -1,5 +1,5 @@
 using CommandService.AsyncDataServices;
-using CommandService.Data;
+using CommandService.Repository;
 using CommandService.EventProcessor;
 using CommandService.SyncDataServices.Grpc;
 using Microsoft.EntityFrameworkCore;

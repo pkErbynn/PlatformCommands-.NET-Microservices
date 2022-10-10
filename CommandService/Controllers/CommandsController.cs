@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using CommandService.Data;
+using CommandService.Repository;
 using CommandService.Dtos;
 using CommandService.Models;
 using Microsoft.AspNetCore.Mvc;

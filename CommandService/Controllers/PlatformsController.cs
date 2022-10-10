@@ -2,7 +2,7 @@
 // Platform is a parent resource of the Command
 
 using AutoMapper;
-using CommandService.Data;
+using CommandService.Repository;
 using CommandService.Dtos;
 using Microsoft.AspNetCore.Mvc;
 

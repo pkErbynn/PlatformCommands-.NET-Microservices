@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using CommandService.Data;
+using CommandService.Repository;
 using CommandService.Dtos;
 using CommandService.EventProcessor.EventTypeEnum;
 using CommandService.Models;

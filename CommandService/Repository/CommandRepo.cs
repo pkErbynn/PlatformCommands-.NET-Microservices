@@ -1,7 +1,7 @@
 ﻿// Data & Repo layer merged
 using CommandService.Models;
 
-namespace CommandService.Data
+namespace CommandService.Repository
 {
     public class CommandRepo : ICommandRepo
     {
